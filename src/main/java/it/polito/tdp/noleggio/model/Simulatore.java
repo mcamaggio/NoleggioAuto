@@ -8,63 +8,63 @@ import it.polito.tdp.noleggio.model.Event.EventType;
 
 public class Simulatore {
 	
-	// Parametri di ingresso
-	private int NC ;
-	private Duration T_IN = Duration.ofMinutes(10) ;
-	private Duration T_TRAVEL = Duration.ofHours(1) ; // 1, 2, o 3 volte tanto
+	// Parametri di ingresso 
+	private int NC;
+	private Duration T_IN = Duration.ofMinutes(10);
+	private Duration T_TRAVEL = Duration.ofHours(1); // 1, 2, o 3 volte tanto
 	
 	// Valori calcolati in uscita
-	private int nClientiTot ;
-	private int nClientiInsoddisfatti ;
+	private int nClientiTot;
+	private int nClientiInsoddisfatti;
 	
 	// Stato del mondo
-	private int autoDisponibili ;
+	private int autoDisonibili;
 	
 	// Coda degli eventi
-	private PriorityQueue<Event> queue ;
+	private PriorityQueue<Event> queue;
 	
-	// Costruttore
 	public Simulatore(int NC) {
-		this.NC = NC ;
+		this.NC = NC;
 		this.queue = new PriorityQueue<>();
-		this.autoDisponibili = NC ;
+		this.autoDisonibili = NC;
 	}
 	
 	public void run() {
 		
 		while(!this.queue.isEmpty()) {
-			Event e = this.queue.poll() ;
+			Event e = this.queue.poll();
 			processEvent(e);
 		}
-		
 	}
 	
 	public void caricaEventi() {
-		LocalTime ora = LocalTime.of(8, 0) ;
-		while(ora.isBefore(LocalTime.of(16,0))) {
-			this.queue.add(new Event(ora, EventType.NUOVO_CLIENTE)) ;
-			ora = ora.plus(T_IN) ;
+		LocalTime ora = LocalTime.of(8, 0);
+		while(ora.isBefore(LocalTime.of(16, 0))) {
+			this.queue.add(new Event(ora, EventType.NUOVO_CLIENTE));
+			ora = ora.plus(T_IN);
 		}
 	}
+	
 
 	private void processEvent(Event e) {
 		
 		switch(e.getType()) {
 		case NUOVO_CLIENTE:
-			this.nClientiTot++ ;
-			if(this.autoDisponibili>0) {
-				this.autoDisponibili-- ;
+			this.nClientiTot++;
+			if(this.autoDisonibili>0) {
+				this.autoDisonibili--;
 				int ore = (int)(Math.random()*3)+1;
-				LocalTime oraRientro = e.getTime().plus(Duration.ofHours(ore * T_TRAVEL.toHours())) ; 
+				LocalTime oraRientro = e.getTime().plus(Duration.ofHours(ore * T_TRAVEL.toHours()));
 				this.queue.add(new Event(oraRientro, EventType.AUTO_RESTITUITA));
 			} else {
-				this.nClientiInsoddisfatti++ ;
+				this.nClientiInsoddisfatti++;
 			}
 			break;
 		case AUTO_RESTITUITA:
-			this.autoDisponibili++ ;
+			this.autoDisonibili++;
 			break;
 		}
+		
 	}
 
 	public int getnClientiTot() {
@@ -79,8 +79,8 @@ public class Simulatore {
 		NC = nC;
 	}
 
-	public void setT_IN(Duration t_IN) {
-		T_IN = t_IN;
+	public void setT_INC(Duration t_INC) {
+		T_IN = t_INC;
 	}
 
 	public void setT_TRAVEL(Duration t_TRAVEL) {
@@ -89,5 +89,4 @@ public class Simulatore {
 	
 	
 	
-
 }

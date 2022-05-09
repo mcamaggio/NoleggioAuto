@@ -8,28 +8,32 @@ public class Event implements Comparable<Event>{
 		NUOVO_CLIENTE,
 		AUTO_RESTITUITA
 	}
-	
-	private LocalTime time ;
-	private EventType type ;
-	
+
+	private LocalTime time;
+	private EventType type;
 	
 	public Event(LocalTime time, EventType type) {
 		super();
 		this.time = time;
 		this.type = type;
 	}
+
 	public LocalTime getTime() {
 		return time;
 	}
+
 	public void setTime(LocalTime time) {
 		this.time = time;
 	}
+
 	public EventType getType() {
 		return type;
 	}
+
 	public void setType(EventType type) {
 		this.type = type;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -38,6 +42,7 @@ public class Event implements Comparable<Event>{
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -56,12 +61,10 @@ public class Event implements Comparable<Event>{
 			return false;
 		return true;
 	}
+
 	@Override
 	public int compareTo(Event other) {
 		return this.time.compareTo(other.time);
-	}
+	}	
 	
-	
-	
-
 }
